@@ -1,0 +1,74 @@
+<mdb-navbar SideClass="navbar navbar-expand-lg navbar-dark indigo">
+  <mdb-navbar-brand>
+      <a class="navbar-brand" href="#" [routerLink]="['/']">To Do List</a>
+  </mdb-navbar-brand>
+  <links>
+      <ul class="navbar-nav mr-auto">
+          
+          <li class="nav-item">
+              <a class="nav-link waves-light" href="#" [routerLink]="['/forget']" mdbWavesEffect>Forget</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link waves-light"    (click)="logout()" mdbWavesEffect>Logout</a>
+        </li>
+          <li class="nav-item">
+              <a class="nav-link waves-light" href="#" [routerLink]="['/sign-up']" mdbWavesEffect>Sign-up</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link waves-light" href="#" [routerLink]="['/crudToDoList']" mdbWavesEffect>ToDoList</a>
+        </li>
+      </ul>
+      <span class="navbar-text white-text">
+       <b> Welcome {{details}} !!!</b>
+      </span>
+  </links>
+</mdb-navbar>
+<br/><br/><br/>
+
+
+<div class="container">
+<ul class="list-group">
+        <b> Welcome {{details}} !!!</b>
+  <li class="list-group-item d-flex justify-content-between align-items-center" *ngFor="let user of allusers;let index=index">
+   <span *ngIf="user.userId !=userId"> {{user.fullname}}</span>
+   <!-- <span *ngIf="user.userId ==userId" > <b>Welcome {{user.fullname}} !!! </b>Here are the online users</span> -->
+    
+<span *ngFor="let online of userList">
+    <span class="badge badge-primary badge-pill" *ngIf="multipleCond(online,user)">online</span>
+</span>
+
+
+<span *ngIf="acceptRequest.length > 0">
+<span *ngFor="let accept of acceptRequest" >
+        
+<button type="button" class="btn btn-danger" style="align-items:flex-end" *ngIf="user.userId == accept" (click)="acceptFriend(user.userId)" >accept Request</button>
+
+
+</span>
+</span>
+
+
+<span *ngIf="acceptFriendRequest.length==0">
+<span *ngIf="acceptRequest.length==0">
+       
+</span>
+</span>
+
+
+<div *ngFor="let acceptFriend of acceptFriendRequest">
+    
+    <button type="button" class="btn btn-warning" style="" *ngIf="user.userId == acceptFriend;" [routerLink]="['/GetToDoList',user.userId]">show todolist</button>
+<!-- <ng-template #hide>
+    <button type="button" class="btn btn-success" *ngIf="user.userId != userId"  (click)="sendrequest(user.userId)" id={{user.userId}}>Send Request3</button>
+</ng-template> -->
+</div>
+
+
+
+    <button type="button" class="btn btn-success"  style="" *ngIf="user.userId != userId"  (click)="sendrequest(user.userId)" id={{user.userId}}>Send Request3</button>
+
+
+
+</li>
+</ul>
+</div>

@@ -1,0 +1,95 @@
+<mdb-navbar SideClass="navbar navbar-expand-lg navbar-dark indigo">
+  <mdb-navbar-brand>
+      <a class="navbar-brand" href="#" [routerLink]="['/']">To Do List</a>
+  </mdb-navbar-brand>
+  <links>
+      <ul class="navbar-nav mr-auto">
+          
+          <li class="nav-item">
+              <a class="nav-link waves-light" href="#" [routerLink]="['/forget']" mdbWavesEffect>Forget</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link waves-light"  (click)="logout()" mdbWavesEffect>Logout</a>
+        </li>
+          <li class="nav-item">
+              <a class="nav-link waves-light" href="#" [routerLink]="['/sign-up']" mdbWavesEffect>Sign-up</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link waves-light" href="getUserManage" mdbWavesEffect>Online Users</a>
+        </li>
+      </ul>
+      <span class="navbar-text white-text">
+          Login
+      </span>
+  </links>
+</mdb-navbar>
+<br/><br/><br/>
+
+
+
+<div class="container">
+
+  <div id="myDIV" class="header">
+    <h2>My To Do List</h2>
+    <input type="text" id="myInput"  [(ngModel)]="messageText" placeholder="Title..." #tbname>
+    <span (click)="newElement(tbname.value)"  class="addBtn">Add</span>
+  </div>
+  
+  <table class="table table-striped">
+    
+    <tbody>
+      <tr *ngFor="let list of ToDoList;let index=index;">
+        <th scope="row" style="width: 10%">{{index}}</th>
+        <td style="width: 60%;cursor: pointer" class="checked" *ngIf="list.check == true">
+          <input type="checkbox" (change)="checkValue($event,list,index)"   checked> {{list.list}}
+          <table class="table table-striped"   *ngFor="let ch of childToDoList;let subindex = index">
+              <tr *ngIf="ch.childId==list.childId">
+                <td></td>
+                  <td style="width: 100%"  *ngIf="ch.list!=null">
+                      
+                      <input type="text" [(ngModel)]="ch.list" style="text-align: end"  [disabled]="list.check==true" #textname>
+                      <button type="button" class="btn btn-success" [disabled]="list.check==true" (click)="saveSubNode(textname.value,ch.childId,subindex)">Save</button>
+                      <i class="fa fa-close fa-lg" aria-hidden="true" style="cursor: pointer;" (click)="deleteSubEvent(subindex,ch,textname.value)"></i>  
+                      <span style="color: black">Edited by:-{{ch.editedBy}}</span>
+                    </td>
+              </tr>
+             
+    
+          </table>
+        </td>
+        
+    
+  
+
+
+         <td style="width: 60%;cursor: pointer" class="unchecked" *ngIf="list.check == false">
+            <input type="checkbox" (change)="checkValue($event,list,index)" > {{list.list}}
+            <table class="table table-striped" *ngFor="let ch of childToDoList;let subindex = index">
+              <tr></tr>
+                <tr *ngIf="ch.childId==list.childId">
+                    <td></td>
+                    <td style="width: 100%" *ngIf="ch.list!=null">
+                        
+                     <input type="text" [(ngModel)]="ch.list" style="text-align: end" #textname>
+                     <button type="button" class="btn btn-success" (click)="saveSubNode(textname.value,ch.childId,subindex)">Save</button>
+                     <i class="fa fa-close fa-lg" aria-hidden="true" style="cursor: pointer;" (click)="deleteSubEvent(subindex,ch,textname.value)"></i>  
+                     <span>Edited by:-{{ch.editedBy}}</span>
+                    </td>
+                </tr>
+               
+      
+            </table>
+          </td>
+
+        
+        <i class="fa fa-close fa-lg" aria-hidden="true" style="cursor: pointer;"  (click)="deleteEvent(index,list)"></i>  
+       
+        <i class="fa fa-plus-square fa-lg" aria-hidden="true" style="cursor: pointer;margin-left: 30%" *ngIf="list.check==false" (click)="newSubElement(index,list)"></i>
+        <span>Edited by:-{{list.editedBy}}</span>
+      </tr>
+
+      
+      
+    </tbody>
+  </table>
+</div>
